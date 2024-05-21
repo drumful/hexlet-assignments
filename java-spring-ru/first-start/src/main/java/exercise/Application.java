@@ -1,26 +1,32 @@
 package exercise;
 
+import exercise.annotation.Inspect;
+import exercise.model.Address;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
 // BEGIN
 @SpringBootApplication
-@RestController
 public class Application {
   public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
-  }
+    var service = new Address();
 
-  @GetMapping("/")
-  String home() {
-    return "Жава - ложь, в ней лишь намек...";
-  }
+    // Итерируем все методы класса
+    for (Method method : Address.class.getDeclaredMethods()) {
 
-  @GetMapping("/about")
-  String about() {
-    return "Welcome to Hexlet!";
+      // Проверяем, есть ли у метода аннотация @Inspect
+      if (method.isAnnotationPresent(Inspect.class)) {
+
+        String regex = "\\.";
+        var splitType = method.getReturnType().toString().split(regex);
+        System.out.println("Method " + method.getName() + " returns a value of type " + splitType[2]);
+      }
+    }
   }
 }
 // END
