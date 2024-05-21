@@ -15,7 +15,7 @@ public class Application {
 
   @GetMapping("/")
   String home() {
-    return "Задолбала эта жава";
+    return "Жава - ложь, в ней лишь намек...";
   }
 
   @GetMapping("/about")
